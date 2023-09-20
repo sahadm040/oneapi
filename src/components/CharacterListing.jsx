@@ -90,7 +90,8 @@ const CharacterListing = () => {
                         />
                       </div>
                     </Col>
-                    <Col md="4" className="d-flex baseline">
+                    <Col md="2"></Col>
+                    <Col md="4" className="d-flex baseline ">
                       <p>Sort By</p>
                       <select
                         className="mx-2"
