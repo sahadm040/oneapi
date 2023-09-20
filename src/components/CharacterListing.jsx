@@ -1,21 +1,40 @@
 import React, { useEffect, useState } from "react";
-import { Button, Card, Col, Container, Row, Table } from "react-bootstrap";
+import {
+  Button,
+  Card,
+  Col,
+  Container,
+  Form,
+  Row,
+  Table,
+} from "react-bootstrap";
 import { BiLeftArrow, BiRightArrow } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
 import { Input } from "reactstrap";
 import { allCharacters } from "../store/api/character.route";
-import { map } from "lodash";
+import { map, range } from "lodash";
 import { Link } from "react-router-dom";
 import Character from "../pages/Character";
 
 const CharacterListing = () => {
   const [characterListView, setCharacterListView] = useState();
+  const [limit, setLimit] = useState();
+  const [pages, setPages] = useState(1);
+  const [sort, setSort] = useState("");
   const [list, setList] = useState();
+  const [gender, setGender] = useState("");
+  console.log("gender", gender);
   console.log("list", list);
+
   const dispatch = useDispatch();
+  const [search, setSearch] = useState("");
   useEffect(() => {
-    dispatch(allCharacters());
-  }, [dispatch]);
+    dispatch(allCharacters({ limit, pages, sort, name: search, gender }));
+  }, [dispatch, limit, pages, sort, search, gender]);
+
+  const HandleSubmit = (e) => {
+    e.preventDefault();
+  };
   const { characterList, characterViewObject } = useSelector(
     (state) => state.character
   );
@@ -26,33 +45,24 @@ const CharacterListing = () => {
     setList(characterViewObject?.docs);
   }, [characterViewObject]);
   console.log("character", characterListView);
-
-  const items = [
-    { id: 1, name: "John Doe" },
-    { id: 2, name: "Jane Doe" },
-    { id: 3, name: "Peter Parker" },
-  ];
-  const [gender, setGender] = useState("");
+  // const totalPages = Math.ceil(characterListView?.total / limit);
+  const totalPages = characterListView?.pages;
+  console.log("totalPages", totalPages);
+  const pageArray = range(1, totalPages + 1);
 
   const handleChange = (e) => {
     setGender(e.target.value);
   };
-
-  const [sortedItems, setSortedItems] = useState([...items]);
-
-  const sortByName = (isAscending) => {
-    const sortedItemsCopy = [...sortedItems];
-
-    sortedItemsCopy.sort((item1, item2) => {
-      if (isAscending) {
-        return item1.name.localeCompare(item2.name);
-      } else {
-        return item2.name.localeCompare(item1.name);
-      }
-    });
-
-    setSortedItems(sortedItemsCopy);
+  const handleChangeLimit = (e) => {
+    setLimit(e.target.value);
   };
+  const handleChangeSort = (e) => {
+    setSort(e.target.value);
+  };
+  const handleChangeSearch = (e) => {
+    setSearch(e.target.value);
+  };
+
   return (
     <div>
       <Character>
@@ -64,53 +74,59 @@ const CharacterListing = () => {
             >
               Characters
             </header>
-            <section style={{ borderBottom: "1px solid gray" }}>
-              <div className="m-3">
-                <Row>
-                  <Col md="6">
-                    <div className="d-flex">
-                      <p>Search</p>
-                      <Input className="mx-2"></Input>
-                    </div>
-                  </Col>
-                  <Col md="4" className="d-flex">
-                    <p>Sort By</p>
-                    <select onChange={(e) => sortByName(e.target.value)}>
-                      <option value="asc">Sort by name (ascending)</option>
-                      <option value="desc">Sort by name (descending)</option>
-                    </select>
-                  </Col>
-                </Row>
-                <Row className="mt-2">
-                  <Col md="4">
-                    <div className="d-flex">
-                      <p>Race</p>
-                      <Input className="mx-2"></Input>
-                    </div>
-                  </Col>
-                  <Col md="4" className="d-flex">
-                    <p>Gender</p>
-                    <select value={gender} onChange={handleChange}>
-                      <option value="">Male/Female/any</option>
-                      <option value="male">Male</option>
-                      <option value="female">Female</option>
-                      <option value="any">any</option>
-                    </select>
-                  </Col>
+            <Form onSubmit={HandleSubmit}>
+              <section style={{ borderBottom: "1px solid gray" }}>
+                <div className="m-3">
+                  <Row>
+                    <Col md="6">
+                      <div className="d-flex">
+                        <p>Search</p>
+                        <input
+                          type="text"
+                          name="name"
+                          placeholder=""
+                          onChange={handleChangeSearch}
+                        />
+                      </div>
+                    </Col>
+                    <Col md="4" className="d-flex">
+                      <p>Sort By</p>
+                      <select value={sort} onChange={handleChangeSort}>
+                        <option value="">sort name by</option>
+                        <option value="asc">asc</option>
+                        <option value="desc">desc</option>
+                      </select>
+                    </Col>
+                  </Row>
+                  <Row className="mt-2">
+                    <Col md="4">
+                      <div className="d-flex">
+                        <p>Race</p>
+                        <div className=""></div>
+                        <Input className="mx-2"></Input>
+                      </div>
+                    </Col>
+                    <Col md="4" className="d-flex">
+                      <p>Gender</p>
+                      <select value={gender} onChange={handleChange}>
+                        <option value="">Male/Female/any</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="male">male</option>
+                        <option value="female">Female</option>
+                        <option value="">any</option>
+                      </select>
+                    </Col>
 
-                  <Col md="1"></Col>
-                  <Col md="3">
-                    <Button>SUBMIT</Button>
-                  </Col>
-                </Row>
-              </div>
-            </section>
+                    <Col md="1"></Col>
+                    <Col md="3">
+                      <Button type="submit">SUBMIT</Button>
+                    </Col>
+                  </Row>
+                </div>
+              </section>
+            </Form>
             <section style={{ borderBottom: "1px solid gray" }}>
-              <ul>
-                {sortedItems.map((item) => (
-                  <li key={item.id}>{item.name}</li>
-                ))}
-              </ul>
               <Table>
                 <thead>
                   <tr>
@@ -140,7 +156,7 @@ const CharacterListing = () => {
             </section>
             <section className="my-4">
               <Row className="justify-content-between mx-4 align-items-center">
-                <Col md="4">
+                <Col md="8">
                   <div className="d-flex">
                     <div
                       style={{
@@ -151,26 +167,28 @@ const CharacterListing = () => {
                     >
                       <BiLeftArrow
                         onClick={() => {
-                          // setPages(pages - 1);
+                          setPages(pages - 1);
                         }}
                       />
                     </div>
-                    {/* {map(pageArray, (page) => ( */}
-                    <div
-                      // onClick={() => setPages(page)}
-                      // className={pages === page && "active"}
-                      style={{
-                        display: "flex",
-                        alignContent: "center",
-                        justifyContent: "center",
-                        border: "1px solid gray",
-                        padding: "5px 10px",
-                        margin: "2px",
-                      }}
-                    >
-                      {/* {page} */}1
-                    </div>
-                    {/* ))} */}
+                    {map(pageArray.slice(0, 10), (page, key) => (
+                      <div
+                        key={key}
+                        onClick={() => setPages(page)}
+                        className={pages === page && "active"}
+                        style={{
+                          display: "flex",
+                          alignContent: "center",
+                          justifyContent: "center",
+                          border: "1px solid gray",
+                          borderRadius: "6px",
+                          padding: "5px 10px",
+                          margin: "2px",
+                        }}
+                      >
+                        {page}
+                      </div>
+                    ))}
 
                     <div
                       style={{
@@ -181,14 +199,21 @@ const CharacterListing = () => {
                     >
                       <BiRightArrow
                         onClick={() => {
-                          // setPages(pages + 1);
+                          setPages(pages + 1);
                         }}
                       />
                     </div>
                   </div>
                 </Col>
                 <Col md="4">
-                  <p>Limit</p>
+                  <div className="d-flex">
+                    <p>Limit</p>
+                    <select value={limit} onChange={handleChangeLimit}>
+                      <option value="10">10</option>
+                      <option value="20">20</option>
+                      <option value="50">50</option>
+                    </select>
+                  </div>
                 </Col>
               </Row>
             </section>

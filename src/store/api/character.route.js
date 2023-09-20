@@ -3,13 +3,22 @@ import { axiosApi } from "../axiosInstance/axiosInstance";
 
 // ----------------------------------- all characters api------------------------------------/
 
-export const allCharacters = createAsyncThunk("allCharacters", async () => {
-  const response = await axiosApi.get("character");
-  // console.log("response", response);
+export const allCharacters = createAsyncThunk(
+  "allCharacters",
+  async ({ limit, pages, sort, name, gender }) => {
+    const response = await axiosApi.get(
+      `character?limit=${limit ? limit : 10}&page=${
+        pages ? pages : 1
+      }&sort=name:${sort ? sort : "asc"}&name=${name ? name : ""}&gender=${
+        gender ? gender : ""
+      }`
+    );
+    // console.log("response", response);
     console.log("response", response.data);
-  //   return response.data;
-  return response.data;
-});
+    //   return response.data;
+    return response.data;
+  }
+);
 
 // ----------------------------------- single character api------------------------------------/
 
