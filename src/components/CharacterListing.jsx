@@ -121,9 +121,9 @@ const CharacterListing = () => {
                       <div className="d-flex baseline">
                         <p>Race</p>
                         <Select
+                          className="px-2"
                           isMulti
                           options={options}
-                          // value={race}
                           value={options.filter((option) =>
                             race.includes(option.value)
                           )}
