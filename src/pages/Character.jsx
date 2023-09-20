@@ -1,9 +1,6 @@
 import React from "react";
 import { Container } from "react-bootstrap";
-import CharacterListing from "../components/CharacterListing";
-import CharacterDetails from "../components/CharacterDetails";
-
-const Character = () => {
+const CharacterLayout = ({ children }) => {
   return (
     <div>
       <Container>
@@ -11,11 +8,10 @@ const Character = () => {
           <h1>The Lord of the Rings API</h1>
           <p>The one API to rule them all</p>
         </div>
-        <CharacterListing />
-        <CharacterDetails />
+        {children}
       </Container>
     </div>
   );
 };
 
-export default Character;
+export default CharacterLayout;
