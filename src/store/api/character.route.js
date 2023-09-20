@@ -5,13 +5,13 @@ import { axiosApi } from "../axiosInstance/axiosInstance";
 
 export const allCharacters = createAsyncThunk(
   "allCharacters",
-  async ({ limit, pages, sort, name, gender }) => {
+  async ({ limit, pages, sort, name, gender, race }) => {
     const response = await axiosApi.get(
       `character?limit=${limit ? limit : 10}&page=${
         pages ? pages : 1
       }&sort=name:${sort ? sort : "asc"}&name=${name ? name : ""}&gender=${
         gender ? gender : ""
-      }`
+      }&race=${race ? race : ""}`
     );
     // console.log("response", response);
     console.log("response", response.data);

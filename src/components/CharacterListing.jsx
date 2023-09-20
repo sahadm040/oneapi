@@ -23,14 +23,15 @@ const CharacterListing = () => {
   const [sort, setSort] = useState("");
   const [list, setList] = useState();
   const [gender, setGender] = useState("");
+  const [race, setRace] = useState([]);
   console.log("gender", gender);
   console.log("list", list);
 
   const dispatch = useDispatch();
   const [search, setSearch] = useState("");
   useEffect(() => {
-    dispatch(allCharacters({ limit, pages, sort, name: search, gender }));
-  }, [dispatch, limit, pages, sort, search, gender]);
+    dispatch(allCharacters({ limit, pages, sort, name: search, gender, race }));
+  }, [dispatch, limit, pages, sort, search, gender, race]);
 
   const HandleSubmit = (e) => {
     e.preventDefault();
@@ -61,6 +62,9 @@ const CharacterListing = () => {
   };
   const handleChangeSearch = (e) => {
     setSearch(e.target.value);
+  };
+  const handleChangeRace = (e) => {
+    setRace(e.target.value);
   };
 
   return (
@@ -108,6 +112,17 @@ const CharacterListing = () => {
                     <Col md="4">
                       <div className="d-flex baseline">
                         <p>Race</p>
+                        <select
+                          className="mx-2"
+                          value={sort}
+                          onChange={handleChangeRace}
+                        >
+                          <option value="Human">Human</option>
+                          <option value="Elf">Elf</option>
+                          <option value="Dragons">Dragons</option>
+                          <option value="Ainur">Ainur</option>
+                          <option value="Dwarf">Dwarf</option>
+                        </select>
                         <Input className="mx-2"></Input>
                       </div>
                     </Col>
@@ -155,7 +170,7 @@ const CharacterListing = () => {
                       <td>{item.gender}</td>
                       <td>
                         <Link to={`/CharacterDetails/${item?._id}`}>
-                          <Button>Details </Button>
+                          <Button className="btn btn-success">Details </Button>
                         </Link>
                       </td>
                     </tr>

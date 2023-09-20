@@ -78,12 +78,12 @@ const CharacterDetails = () => {
                   <Col>{item?.death}</Col>
                 </Row>
               </section>
-              <section className="">
+              <section className="my-4">
                 <Row>
                   <Col md="8"></Col>
                   <Col className="text-center">
                     <Link to={"/CharacterListing"}>
-                      <Button>CLOSE</Button>
+                      <Button className="btn btn-danger px-4">CLOSE</Button>
                     </Link>
                   </Col>
                 </Row>
