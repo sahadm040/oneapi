@@ -15,6 +15,7 @@ import { allCharacters } from "../store/api/character.route";
 import { map, range } from "lodash";
 import { Link } from "react-router-dom";
 import Character from "../pages/Character";
+import Select from "react-select";
 
 const CharacterListing = () => {
   const [characterListView, setCharacterListView] = useState();
@@ -24,6 +25,8 @@ const CharacterListing = () => {
   const [list, setList] = useState();
   const [gender, setGender] = useState("");
   const [race, setRace] = useState([""]);
+  console.log("race", race);
+
   console.log("gender", gender);
 
   const dispatch = useDispatch();
@@ -35,9 +38,7 @@ const CharacterListing = () => {
   const HandleSubmit = (e) => {
     e.preventDefault();
   };
-  const {characterViewObject } = useSelector(
-    (state) => state.character
-  );
+  const { characterViewObject } = useSelector((state) => state.character);
   console.log("characterViewObject", characterViewObject.docs);
   useEffect(() => {
     setCharacterListView(characterViewObject);
@@ -61,17 +62,19 @@ const CharacterListing = () => {
   const handleChangeSearch = (e) => {
     setSearch(e.target.value);
   };
-  const handleChangeRace = (e) => {
-    // const newValue = e.target.value;
-    // setRace((prevRace) => [...prevRace, newValue]);
-    const newValue = e.target.value;
-    // Create a new Set based on the previous state
-    const newRaceSet = new Set([...race]);
-    newRaceSet.add(newValue);
-    // Convert the Set back to an array and update the state
-    setRace(Array.from(newRaceSet));
+  const options = [
+    { value: "Hobbit", label: "Hobbit" },
+    { value: "Human", label: "Human" },
+    { value: "Elf", label: "Elf" },
+    { value: "Maiar", label: "Maiar" },
+    { value: "Dragons", label: "Dragons" },
+    { value: "Ainur", label: "Ainur" },
+    { value: "Dwarf", label: "Dwarf" },
+  ];
+  const handleChanges = (selectedOptions) => {
+    const selectedValuesArray = selectedOptions.map((option) => option.value);
+    setRace(selectedValuesArray);
   };
-
   return (
     <div>
       <Character>
@@ -117,18 +120,15 @@ const CharacterListing = () => {
                     <Col md="4">
                       <div className="d-flex baseline">
                         <p>Race</p>
-                        <select
-                          className="mx-2"
-                          value={sort}
-                          onChange={handleChangeRace}
-                        >
-                          <option value="">Race</option>
-                          <option value="Human">Human</option>
-                          <option value="Elf">Elf</option>
-                          <option value="Dragons">Dragons</option>
-                          <option value="Ainur">Ainur</option>
-                          <option value="Dwarf">Dwarf</option>
-                        </select>
+                        <Select
+                          isMulti
+                          options={options}
+                          // value={race}
+                          value={options.filter((option) =>
+                            race.includes(option.value)
+                          )}
+                          onChange={handleChanges}
+                        />
                       </div>
                     </Col>
                     <Col md="4" className="d-flex baseline">
