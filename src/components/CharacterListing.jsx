@@ -81,7 +81,7 @@ const CharacterListing = () => {
                     <Col md="6">
                       <div className="d-flex">
                         <p>Search</p>
-                        <input
+                        <Input
                           type="text"
                           name="name"
                           placeholder=""
