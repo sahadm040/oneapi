@@ -23,9 +23,8 @@ const CharacterListing = () => {
   const [sort, setSort] = useState("");
   const [list, setList] = useState();
   const [gender, setGender] = useState("");
-  const [race, setRace] = useState([]);
+  const [race, setRace] = useState([""]);
   console.log("gender", gender);
-  console.log("list", list);
 
   const dispatch = useDispatch();
   const [search, setSearch] = useState("");
@@ -36,10 +35,9 @@ const CharacterListing = () => {
   const HandleSubmit = (e) => {
     e.preventDefault();
   };
-  const { characterList, characterViewObject } = useSelector(
+  const {characterViewObject } = useSelector(
     (state) => state.character
   );
-  console.log("characterList", characterList);
   console.log("characterViewObject", characterViewObject.docs);
   useEffect(() => {
     setCharacterListView(characterViewObject);
@@ -64,7 +62,14 @@ const CharacterListing = () => {
     setSearch(e.target.value);
   };
   const handleChangeRace = (e) => {
-    setRace(e.target.value);
+    // const newValue = e.target.value;
+    // setRace((prevRace) => [...prevRace, newValue]);
+    const newValue = e.target.value;
+    // Create a new Set based on the previous state
+    const newRaceSet = new Set([...race]);
+    newRaceSet.add(newValue);
+    // Convert the Set back to an array and update the state
+    setRace(Array.from(newRaceSet));
   };
 
   return (
@@ -117,13 +122,13 @@ const CharacterListing = () => {
                           value={sort}
                           onChange={handleChangeRace}
                         >
+                          <option value="">Race</option>
                           <option value="Human">Human</option>
                           <option value="Elf">Elf</option>
                           <option value="Dragons">Dragons</option>
                           <option value="Ainur">Ainur</option>
                           <option value="Dwarf">Dwarf</option>
                         </select>
-                        <Input className="mx-2"></Input>
                       </div>
                     </Col>
                     <Col md="4" className="d-flex baseline">

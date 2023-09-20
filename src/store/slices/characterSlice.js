@@ -3,7 +3,6 @@ import { allCharacters, characterSingleView } from "../api/character.route";
 const initialState = {
   data: null,
   characterViewObject: {},
-  characterList: [],
   characterView: {},
 };
 const characterSlice = createSlice({
@@ -17,7 +16,6 @@ const characterSlice = createSlice({
     [allCharacters.fulfilled]: (state, action) => {
       console.log("allCharacters fulfilled");
       state.characterViewObject = action.payload;
-      state.characterList = action.payload.docs;
     },
     [allCharacters.rejected]: () => {
       console.log("allCharacters rejected");
