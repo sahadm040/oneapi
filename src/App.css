@@ -49,3 +49,7 @@ li {
   border-radius: 6px;
 
 }
+
+.baseline {
+  align-items: baseline;
+}

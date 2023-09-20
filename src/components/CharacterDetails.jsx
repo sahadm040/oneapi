@@ -34,7 +34,7 @@ const CharacterDetails = () => {
                 className="p-2"
                 style={{ borderBottom: "1px solid gray", textAlign: "center" }}
               >
-                Characters {item?.name}
+                <h6>Characters {`>`} {item?.name}</h6>
               </header>
               <section className="p-3">
                 <Row>

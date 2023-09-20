@@ -72,16 +72,17 @@ const CharacterListing = () => {
               className="p-2"
               style={{ borderBottom: "1px solid gray", textAlign: "center" }}
             >
-              Characters
+              <h6>Characters </h6>
             </header>
             <Form onSubmit={HandleSubmit}>
               <section style={{ borderBottom: "1px solid gray" }}>
                 <div className="m-3">
-                  <Row>
+                  <Row className="baseline">
                     <Col md="6">
-                      <div className="d-flex">
+                      <div className="d-flex baseline">
                         <p>Search</p>
                         <Input
+                          className="mx-2"
                           type="text"
                           name="name"
                           placeholder=""
@@ -89,26 +90,33 @@ const CharacterListing = () => {
                         />
                       </div>
                     </Col>
-                    <Col md="4" className="d-flex">
+                    <Col md="4" className="d-flex baseline">
                       <p>Sort By</p>
-                      <select value={sort} onChange={handleChangeSort}>
+                      <select
+                        className="mx-2"
+                        value={sort}
+                        onChange={handleChangeSort}
+                      >
                         <option value="">sort name by</option>
                         <option value="asc">asc</option>
                         <option value="desc">desc</option>
                       </select>
                     </Col>
                   </Row>
-                  <Row className="mt-2">
+                  <Row className="mt-2 baseline">
                     <Col md="4">
-                      <div className="d-flex">
+                      <div className="d-flex baseline">
                         <p>Race</p>
-                        <div className=""></div>
                         <Input className="mx-2"></Input>
                       </div>
                     </Col>
-                    <Col md="4" className="d-flex">
+                    <Col md="4" className="d-flex baseline">
                       <p>Gender</p>
-                      <select value={gender} onChange={handleChange}>
+                      <select
+                        className="mx-2"
+                        value={gender}
+                        onChange={handleChange}
+                      >
                         <option value="">Male/Female/any</option>
                         <option value="Male">Male</option>
                         <option value="Female">Female</option>
@@ -169,6 +177,7 @@ const CharacterListing = () => {
                         onClick={() => {
                           setPages(pages - 1);
                         }}
+                        size={25}
                       />
                     </div>
                     {map(pageArray.slice(0, 10), (page, key) => (
@@ -201,13 +210,14 @@ const CharacterListing = () => {
                         onClick={() => {
                           setPages(pages + 1);
                         }}
+                        size={25}
                       />
                     </div>
                   </div>
                 </Col>
                 <Col md="4">
-                  <div className="d-flex">
-                    <p>Limit</p>
+                  <div className="d-flex baseline">
+                    <p className="mx-2">Limit</p>
                     <select value={limit} onChange={handleChangeLimit}>
                       <option value="10">10</option>
                       <option value="20">20</option>
