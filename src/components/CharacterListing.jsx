@@ -201,7 +201,7 @@ const CharacterListing = () => {
                         size={25}
                       />
                     </div>
-                    {map(pageArray.slice(0, 10), (page, key) => (
+                    {map(pageArray.slice(0, 5), (page, key) => (
                       <div
                         key={key}
                         onClick={() => setPages(page)}
@@ -238,7 +238,7 @@ const CharacterListing = () => {
                 </Col>
                 <Col md="4">
                   <div className="d-flex baseline">
-                    <p className="mx-2">Limit</p>
+                    <p className="m-2">Limit</p>
                     <select value={limit} onChange={handleChangeLimit}>
                       <option value="10">10</option>
                       <option value="20">20</option>
