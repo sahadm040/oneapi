@@ -11,6 +11,7 @@ const CharacterDetails = () => {
   const params = useParams();
   console.log("params", params);
   const [character, setCharacter] = useState();
+  console.log("character", character);
 
   useEffect(
     (id) => {
@@ -34,7 +35,9 @@ const CharacterDetails = () => {
                 className="p-2"
                 style={{ borderBottom: "1px solid gray", textAlign: "center" }}
               >
-                <h6>Characters {`>`} {item?.name}</h6>
+                <h6>
+                  Characters {`>`} {item?.name}
+                </h6>
               </header>
               <section className="p-3">
                 <Row>
@@ -82,7 +85,7 @@ const CharacterDetails = () => {
                 <Row>
                   <Col md="8"></Col>
                   <Col className="text-center">
-                    <Link to={"/CharacterListing"}>
+                    <Link to={"/"}>
                       <Button className="btn btn-danger px-4">CLOSE</Button>
                     </Link>
                   </Col>

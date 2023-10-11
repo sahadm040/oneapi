@@ -156,7 +156,7 @@ const CharacterListing = () => {
               </section>
             </Form>
             <section style={{ borderBottom: "1px solid gray" }}>
-              <Table>
+              <Table responsive>
                 <thead>
                   <tr>
                     <th>ID</th>
